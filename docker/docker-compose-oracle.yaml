@@ -38,8 +38,6 @@ services:
       options:
         max-size: "1k"
         max-file: "3"
-    volumes:
-      - ./server/config/config-oracle.properties:/app/config/config-oracle.properties:ro
 
   conductor-oracle:
     # image: conductorboot/oracle:19.3.0-ee-slim-test
@@ -67,7 +65,7 @@ services:
   conductor-redis:
     image: redis:6.2.3-alpine
     volumes:
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - ./server/config/redis.conf:/usr/local/etc/redis/redis.conf:ro
     networks:
       - internal
     ports:
