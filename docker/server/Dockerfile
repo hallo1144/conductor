@@ -55,7 +55,7 @@ RUN apk add nginx
 RUN mkdir -p /app/config /app/logs /app/libs
 
 # Copy the compiled output to new image
-COPY docker/server/bin /app
+COPY docker/server/scripts/startup.sh /app
 COPY docker/server/config /app/config
 COPY --from=builder /conductor/server/build/libs/*boot*.jar /app/libs/conductor-server.jar
 

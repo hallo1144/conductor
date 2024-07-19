@@ -18,6 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
@@ -55,6 +57,12 @@ public class DummyPayloadStorage implements ExternalPayloadStorage {
         }
     }
 
+    private String resolvePath(String dir, String filename) {
+        Path path = Paths.get(dir, filename).normalize();
+        if (!path.startsWith(dir)) throw new IllegalArgumentException("base dir is being escaped.");
+        return path.toString();
+    }
+
     @Override
     public ExternalStorageLocation getLocation(
             Operation operation, PayloadType payloadType, String path) {
@@ -65,7 +73,7 @@ public class DummyPayloadStorage implements ExternalPayloadStorage {
 
     @Override
     public void upload(String path, InputStream payload, long payloadSize) {
-        File file = new File(payloadDir, path);
+        File file = new File(resolvePath(payloadDir.getPath(), path));
         String filePath = file.getAbsolutePath();
         try {
             if (!file.exists() && file.createNewFile()) {
@@ -92,7 +100,7 @@ public class DummyPayloadStorage implements ExternalPayloadStorage {
     public InputStream download(String path) {
         try {
             LOGGER.debug("Reading from {}", path);
-            return new FileInputStream(new File(payloadDir, path));
+            return new FileInputStream(new File(resolvePath(payloadDir.getPath(), path)));
         } catch (IOException e) {
             LOGGER.error("Error reading {}", path, e);
             return null;
