@@ -38,6 +38,8 @@ services:
       options:
         max-size: "1k"
         max-file: "3"
+    volumes:
+      - ./server/config/config-oracle.properties:/app/config/config-oracle.properties:ro
 
   conductor-oracle:
     image: gvenzl/oracle-xe:21.3.0-slim
