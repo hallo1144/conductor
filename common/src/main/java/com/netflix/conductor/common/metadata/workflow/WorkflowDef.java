@@ -73,7 +73,7 @@ public class WorkflowDef extends Auditable {
     private boolean restartable = true;
 
     @ProtoField(id = 10)
-    private boolean workflowStatusListenerEnabled = false;
+    private boolean workflowStatusListenerEnabled = true;
 
     @ProtoField(id = 11)
     @OwnerEmailMandatoryConstraint
@@ -260,7 +260,8 @@ public class WorkflowDef extends Auditable {
      * @param workflowStatusListenerEnabled
      */
     public void setWorkflowStatusListenerEnabled(boolean workflowStatusListenerEnabled) {
-        this.workflowStatusListenerEnabled = workflowStatusListenerEnabled;
+        // hardcode to true
+        // this.workflowStatusListenerEnabled = workflowStatusListenerEnabled;
     }
 
     /**
