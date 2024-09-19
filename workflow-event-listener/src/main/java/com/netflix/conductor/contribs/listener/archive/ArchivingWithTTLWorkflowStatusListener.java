@@ -92,16 +92,15 @@ public class ArchivingWithTTLWorkflowStatusListener implements WorkflowStatusLis
             this.executionDAOFacade.removeWorkflow(workflow.getWorkflowId(), true);
             Monitors.recordWorkflowArchived(workflow.getWorkflowName(), workflow.getStatus());
         }
-
     }
 
     @Override
     public void onWorkflowTerminated(WorkflowModel workflow) {
         LOGGER.info("Archiving workflow {} on termination", workflow.getWorkflowId());
         LOGGER.info(
-                    "workflow {} is not in COMPLETED state ({})",
-                    workflow.getWorkflowId(),
-                    workflow.getStatus());
+                "workflow {} is not in COMPLETED state ({})",
+                workflow.getWorkflowId(),
+                workflow.getStatus());
         if (secondDelayArchiveSeconds > 0) {
             scheduledThreadPoolExecutor.schedule(
                     new DelayArchiveWorkflow(workflow, executionDAOFacade),
